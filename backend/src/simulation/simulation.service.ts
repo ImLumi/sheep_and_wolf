@@ -15,7 +15,7 @@ export class SimulationService {
     const intervalId = setInterval(() => {
       if (sheepList.length === 0) {
         clearInterval(intervalId);
-        client.emit('running', { isFinnish: true });
+        client.emit('running', { isFinish: true });
       }
 
       client.emit('running', {
