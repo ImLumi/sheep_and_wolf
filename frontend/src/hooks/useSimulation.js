@@ -12,9 +12,12 @@ const useSimulation = (socket) => {
     });
 
     socket.on('running', (data) => {
-      setSheep(data.sheep);
-      setWolf(data.wolf);
-      setScreen(data.screen);
+      if (data?.isFinish) setIsRunning(false);
+      else {
+        setSheep(data.sheep);
+        setWolf(data.wolf);
+        setScreen(data.screen);
+      }
     });
 
     return () => {
