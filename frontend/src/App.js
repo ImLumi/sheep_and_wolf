@@ -1,42 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
-import { useEffect, useState } from "react";
-import { io } from "socket.io-client";
+import { io } from 'socket.io-client';
+import {
+  Box, ScopedCssBaseline, Typography,
+} from '@mui/material';
+import useSimulation from './hooks/useSimulation';
+import Canvas from './components/Canvas';
+import Settings from './components/Settings';
 
 const socket = io('ws://localhost:3030');
+
 function App() {
-  const [status, setStatus] = useState('nincs');
-  const [counter, setCounter] = useState(0);
-
-  useEffect(() => {
-      socket.on('connect', () => {
-        setStatus('Connected');
-      });
-
-    socket.on('disconnect', () => {
-      setStatus('disconnected');
-    })
-
-    socket.on('running', (res) => {
-      setCounter(res);
-    })
-
-    return () => {
-      socket.off('connect', () => setStatus('disconnected'))
-      socket.off('disconnect', () => setStatus('disconnected'))
-      socket.off('running', () => setStatus('disconnected'))
-    }
-  }, []);
+  const {
+    status, sheep, wolf, isRunning, startSimulation, stopSimulation, screen,
+  } = useSimulation(socket);
   return (
-    <div className="App">
-      <input
-        type="number"
-        value={counter}
-        onChange={({target: {value}}) => setCounter(value)}
-      />
-      <button onClick={() => {socket.emit('createSimulator', { counter })}}>Start</button>
-      <button onClick={() => {socket.emit('running', { cmd: 'stop' })}}>stop</button>
-    </div>
+    <ScopedCssBaseline>
+      <Box
+        width="100vw"
+        display="flex"
+        flexDirection="column"
+        justifyContent="center"
+        alignItems="center"
+        gap={2}
+      >
+        <Typography variant="h5">Bárányok és a farkas szimuláció</Typography>
+        <Typography>
+          szerver státusz: {status}
+        </Typography>
+        <Settings
+          disabled={isRunning}
+          startSimulation={startSimulation}
+          stopSimulation={stopSimulation}
+        />
+        <Canvas
+          width={screen.width}
+          height={screen.height}
+          sheep={sheep}
+          wolf={wolf}
+        />
+      </Box>
+    </ScopedCssBaseline>
   );
 }
 
