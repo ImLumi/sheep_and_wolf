@@ -7,18 +7,20 @@ const StyledCanvas = styled('canvas')({
   margin: 10,
 });
 
-function MyComponent({ sheep, wolf }) {
+function Canvas({
+  sheep, wolf, width, height,
+}) {
   const canvasRef = useRef(null);
 
   useEffect(() => {
     if (canvasRef != null) {
       const ctx = canvasRef.current.getContext('2d');
-      canvasRef.current.height = 500;
-      canvasRef.current.width = 500;
+      canvasRef.current.height = height;
+      canvasRef.current.width = width;
       drawSheep(sheep, ctx);
       drawWolf(wolf, ctx);
     }
-  }, [sheep, wolf]);
+  }, [sheep, wolf, width, height]);
 
   return (
     <Paper elevation={2}>
@@ -27,4 +29,4 @@ function MyComponent({ sheep, wolf }) {
   );
 }
 
-export default MyComponent;
+export default Canvas;
