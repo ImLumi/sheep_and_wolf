@@ -1,1 +1,6 @@
-# sheeps_and_wolf
+# bárányok és a farkas
+
+## indítás dockerrel:
+```bash
+    $ docker compose up
+```
