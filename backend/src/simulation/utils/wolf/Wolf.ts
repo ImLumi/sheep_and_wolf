@@ -3,7 +3,7 @@ import Sheep from '../Sheep/Sheep';
 export default class Wolf {
   private x;
   private y;
-  private size = 15;
+  private size = 5;
   private readonly speed = 7;
   private readonly maxHeight;
   private readonly maxWidth;
