@@ -5,8 +5,9 @@ import {
 import useSimulation from './hooks/useSimulation';
 import Canvas from './components/Canvas';
 import Settings from './components/Settings';
+import { backendUrl } from './utils/settings';
 
-const socket = io('ws://localhost:3030');
+const socket = io(backendUrl);
 
 function App() {
   const {
