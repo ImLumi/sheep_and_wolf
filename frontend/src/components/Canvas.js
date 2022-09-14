@@ -8,7 +8,7 @@ const StyledCanvas = styled('canvas')({
 });
 
 function Canvas({
-  sheep, wolf, width = 200, height = 200,
+  sheep, wolf, width = 300, height = 300,
 }) {
   const canvasRef = useRef(null);
 

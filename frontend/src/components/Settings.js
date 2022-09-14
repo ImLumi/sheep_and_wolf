@@ -5,7 +5,7 @@ import {
 
 function Settings({ disabled, startSimulation, stopSimulation }) {
   const [formData, setFormData] = useState({
-    sheepCount: 20, speed: 1, width: 500, height: 500,
+    sheepCount: 20, speed: 1, width: 300, height: 300,
   });
 
   const handleChange = ({ target: { name, value } }) => {
