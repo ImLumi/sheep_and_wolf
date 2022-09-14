@@ -1,10 +1,17 @@
 import Sheep from '../Sheep/Sheep';
 
+type NearestSheep = {
+  x: number | null;
+  y: number | null;
+  distance: number | null;
+  index: number | null;
+};
+
 export default class Wolf {
   private x;
   private y;
   private size = 5;
-  private readonly speed = 7;
+  private speed = 7;
   private readonly maxHeight;
   private readonly maxWidth;
 
@@ -19,13 +26,14 @@ export default class Wolf {
     return { x: this.x, y: this.y };
   }
 
+  private eatSheep(nearestSheep: NearestSheep, sheep: Sheep[]) {
+    sheep.splice(nearestSheep.index, 1);
+    this.size += 0.5;
+    if (this.speed > 1) this.speed -= 0.05;
+  }
+
   catchSheep(sheep: Sheep[]) {
-    const nearestSheep = sheep.reduce<{
-      x: number | null;
-      y: number | null;
-      distance: number | null;
-      index: number | null;
-    }>(
+    const nearestSheep = sheep.reduce<NearestSheep>(
       (acc, sp, index) => {
         const sheepPos = sp.getPos();
         const distance = Math.sqrt(
@@ -38,10 +46,8 @@ export default class Wolf {
       { x: 0, y: 0, distance: null, index: null },
     );
 
-    if (nearestSheep.distance < this.size) {
-      sheep.splice(nearestSheep.index, 1);
-      this.size += 0.5;
-    }
+    if (nearestSheep.distance < this.size) this.eatSheep(nearestSheep, sheep);
+
     const deltaX = Math.abs(this.x - nearestSheep.x);
     const deltaY = Math.abs(this.y - nearestSheep.y);
 
